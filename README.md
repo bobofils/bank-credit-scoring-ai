@@ -1,4 +1,4 @@
-# 🏦 ECOBANK Credit Scoring AI
+# 🏦 BANK Credit Scoring AI
 
 Machine learning application for predicting credit risk and supporting financial decision-making.
 
@@ -39,5 +39,5 @@ It combines a machine learning model with an interactive web interface to provid
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/bobofils/ecobank-scoring.git
-cd ecobank-scoring
+git clone https://github.com/bobofils/bank-credit-scoring-ai.git
+cd bank-credit-scoring-ai

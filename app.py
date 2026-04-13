@@ -4,10 +4,15 @@ import io
 from datetime import datetime
 from utils import load_model, preprocess_input, predict_risk, loan_calculations
 
-st.set_page_config(page_title="ECOBANK Scoring", layout="centered")
+# =========================
+# ⚙️ CONFIGURATION APP
+# =========================
+st.set_page_config(page_title="BANK Scoring AI", layout="centered")
 
+# =========================
 # 🏦 HEADER
-st.title("🏦 ECOBANK - Credit Scoring System")
+# =========================
+st.title("🏦 BANK - Credit Scoring System")
 st.markdown("### AI-powered loan risk & repayment analysis")
 st.warning("⚠️ Demo only - No personal data is stored")
 
@@ -46,7 +51,7 @@ with col4:
 # =========================
 if st.button("🔍 Analyze Credit"):
 
-    # 🤖 Scoring IA
+    # 🤖 IA SCORING
     data = preprocess_input(age, income, loan_amount)
     prediction, proba = predict_risk(model, data)
 
@@ -57,7 +62,7 @@ if st.button("🔍 Analyze Credit"):
     else:
         st.success(f"✅ Low Risk ({proba:.2f})")
 
-    # 💰 Calcul financier
+    # 💰 CALCUL FINANCIER
     monthly, total, interest = loan_calculations(
         loan_amount, interest_rate, duration
     )
@@ -68,7 +73,9 @@ if st.button("🔍 Analyze Credit"):
     st.write(f"**Total Repayment:** {total:.2f}")
     st.write(f"**Total Interest:** {interest:.2f}")
 
-    # 📊 Tableau récapitulatif
+    # =========================
+    # 📊 TABLEAU RÉCAP
+    # =========================
     df = pd.DataFrame({
         "Name": [name],
         "Age": [age],
@@ -108,7 +115,7 @@ if st.button("🔍 Analyze Credit"):
 
     pdf.set_font("Arial", size=12)
 
-    pdf.cell(200, 10, txt="ECOBANK CREDIT REPORT", ln=True)
+    pdf.cell(200, 10, txt="BANK CREDIT REPORT", ln=True)
 
     pdf.cell(200, 10, txt=f"Name: {name}", ln=True)
     pdf.cell(200, 10, txt=f"Age: {age}", ln=True)
@@ -129,6 +136,6 @@ if st.button("🔍 Analyze Credit"):
     st.download_button(
         "📄 Download PDF",
         data=pdf_output,
-        file_name="credit_report.pdf",
+        file_name="bank_credit_report.pdf",
         mime="application/pdf"
     )
