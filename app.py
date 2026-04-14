@@ -9,7 +9,7 @@ model = load_model()
 
 st.set_page_config(page_title="Bank AI Dashboard", layout="wide")
 
-st.title("🏦 Banque PRO V2 - Dashboard de Scoring Crédit")
+st.title("🏦 Banque PRO V3 - Dashboard de Scoring Crédit")
 st.markdown("Analyse intelligente du risque client")
 
 # =========================
@@ -77,7 +77,6 @@ with col7:
 # =========================
 if st.button("📊 Analyser le risque"):
 
-    # INPUT ML (simple)
     input_data = np.array([[age, revenu_total, montant_credit]])
 
     prediction = model.predict(input_data)[0]
@@ -86,15 +85,49 @@ if st.button("📊 Analyser le risque"):
     risk = round((1 - proba) * 100, 2)
 
     # =========================
-    # 💳 SCORE
+    # 💳 SCORE AMÉLIORÉ
     # =========================
     st.subheader("💳 Score de risque")
-    st.metric("Risque client", f"{risk} %")
+
+    if risk < 30:
+        couleur = "🟢 Bon"
+    elif risk < 60:
+        couleur = "🟡 Moyen"
+    else:
+        couleur = "🔴 Élevé"
+
+    st.metric("Score de risque", f"{risk} %", delta=couleur)
 
     if prediction == 1:
-        st.error("Client fiable ✅")
+        st.success("Client fiable ✅")
     else:
         st.error("Client à risque ⚠️")
+
+    # =========================
+    # 📊 GRAPHIQUE
+    # =========================
+    st.subheader("📊 Analyse visuelle")
+
+    st.bar_chart({
+        "Risque": [risk],
+        "Fiabilité": [100 - risk]
+    })
+
+    # =========================
+    # 🧠 INTERPRÉTATION IA
+    # =========================
+    st.subheader("🧠 Analyse IA")
+
+    if taux_endettement > 0.4:
+        st.warning("Endettement élevé → risque augmenté")
+
+    if revenu_total < 300000:
+        st.warning("Revenu faible → capacité de remboursement limitée")
+
+    if prediction == 1:
+        st.success("Profil global stable pour un crédit")
+    else:
+        st.error("Profil risqué selon le modèle IA")
 
     # =========================
     # 💰 CALCUL PRÊT
@@ -147,15 +180,18 @@ if st.button("📊 Analyser le risque"):
     )
 
     # =========================
-    # 📄 EXPORT PDF
+    # 📄 EXPORT PDF PRO
     # =========================
     from fpdf import FPDF
 
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=10)
 
-    pdf.cell(200, 10, "RAPPORT CREDIT BANCAIRE", ln=True)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(200, 10, "RAPPORT OFFICIEL DE CREDIT", ln=True)
+
+    pdf.set_font("Arial", size=10)
+    pdf.cell(200, 10, f"Date: {datetime.now()}", ln=True)
 
     pdf.cell(200, 10, f"Age: {age}", ln=True)
     pdf.cell(200, 10, f"Revenu: {revenu_total}", ln=True)
