@@ -9,7 +9,7 @@ model = load_model()
 
 st.set_page_config(page_title="Bank AI Dashboard", layout="wide")
 
-st.title("🏦 Banque - Dashboard de Scoring Crédit")
+st.title("🏦 Banque PRO V2 - Dashboard de Scoring Crédit")
 st.markdown("Analyse intelligente du risque client")
 
 # =========================
